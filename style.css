@@ -1,0 +1,81 @@
+* {
+    box-sizing: border-box;
+    font-family: "Times New Roman", serif;
+  }
+  
+  body {
+    margin: 0;
+    background: #111;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Intro */
+  .intro {
+    position: absolute;
+    text-align: center;
+    animation: fadeOut 1s ease forwards;
+    animation-delay: 2s;
+  }
+  
+  .intro h1 {
+    letter-spacing: 4px;
+    font-size: 36px;
+  }
+  
+  /* Card */
+  .card {
+    width: 320px;
+    background: #fff;
+    color: #000;
+    border-radius: 12px;
+    padding: 24px;
+    transform: scaleY(0);
+    transform-origin: top;
+    animation: openCard 1.2s ease forwards;
+  }
+  
+  .card-inner {
+    text-align: center;
+  }
+  
+  .card h2 {
+    margin-bottom: 16px;
+  }
+  
+  .info {
+    margin: 16px 0;
+  }
+  
+  .footer {
+    margin-top: 24px;
+    font-style: italic;
+  }
+  
+  /* Hidden */
+  .hidden {
+    display: none;
+  }
+  
+  /* Animations */
+  @keyframes openCard {
+    from {
+      transform: scaleY(0);
+      opacity: 0;
+    }
+    to {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  
