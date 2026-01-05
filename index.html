@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YEP - Khoa Xét Nghiệm</title>
+  <title>YEP - Khoa Xét Nghiệm BV Nam Sài Gòn</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -15,47 +15,52 @@
 
   <div id="intro" class="intro">
     <h1 class="shimmer-text">YEAR END<br>PARTY</h1>
-    <p style="color: #ffd700; letter-spacing: 3px; margin-top: 15px; font-size: 14px;">KHOA XÉT NGHIỆM</p>
+    <p class="intro-sub">KHOA XÉT NGHIỆM</p>
   </div>
 
   <div id="book-wrapper" class="book-wrapper hidden">
     <div class="book">
-    
       <div class="cover-leaf">
         
         <div class="front">
           <div class="front-content">
             <div class="logo-text">BV Nam Sài Gòn</div>
-            <h2>THƯ MỜI</h2>
+            <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <h2>INVITATION</h2>
+            <div class="line-small"></div>
             <p>Year End Party 2026</p>
           </div>
-        </div>
-        <button id="open-btn" class="open-btn"> Chạm vào đây</button>
+
+          <div id="open-btn" class="open-btn" title="Chạm để mở">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </div>
+          </div>
 
         <div class="back-cover">
           <img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?q=80&w=1740&auto=format&fit=crop" alt="Khoa Xét Nghiệm">
-          
           <div class="overlay"></div>
-          
           <div class="left-content">
             <h3>KHOA<br>XÉT NGHIỆM</h3>
             <div class="small-line"></div>
             <p>Cùng nhau tỏa sáng</p>
           </div>
-          
           <div class="firework-mini" style="top: 20%; left: 30%"></div>
           <div class="firework-mini" style="bottom: 30%; right: 20%; animation-delay: 0.8s"></div>
         </div>
-
       </div>
 
       <div class="body-card">
         <div class="card-content">
           <h2>THƯ MỜI</h2>
           <div class="line"></div>
-          <p>Trân trọng kính mời:</p>
+          <p class="invite-text">Trân trọng kính mời:</p>
           <p class="guest-name">Quý Đồng Nghiệp</p>
-          <p>Đến tham dự bữa tiệc tất niên<br>tổng kết hành trình một năm.</p>
+          <p class="invite-text">Đến tham dự bữa tiệc tất niên<br>tổng kết hành trình một năm.</p>
           <div class="details">
             <p>📅 <strong>Thời gian:</strong> 18:00 - 20/01/2026</p>
             <p>📍 <strong>Địa điểm:</strong> Sảnh Grand, BV Nam Sài Gòn</p>
@@ -64,9 +69,8 @@
           <p class="footer">Ban Tổ Chức</p>
         </div>
       </div>
-      
     </div>
-  </div>
+    </div>
 
   <script src="script.js"></script>
 </body>
