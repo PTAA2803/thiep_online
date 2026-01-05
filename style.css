@@ -5,13 +5,14 @@
   /* MÀU CHỦ ĐẠO */
   --gold: #ffd700;       /* Vàng kim loại sáng */
   --gold-dim: #c5a059;   /* Vàng đồng trầm hơn */
+  --gold-dark: #a8853c;  /* Vàng tối */
   
   /* BÌA THIỆP: Xanh Navy đậm */
-  --cover-color: #002b49; 
   --cover-gradient: linear-gradient(135deg, #004e92, #000428);
   
   /* GIẤY BÊN TRONG: Màu kem sáng */
   --card-bg: #fffbf0;
+  --text-blue: #002b49;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,10 +25,10 @@ body {
   align-items: center;
   font-family: 'Playfair Display', serif;
   overflow: hidden;
-  perspective: 2000px;
+  perspective: 2000px; /* Tạo độ sâu 3D */
 }
 
-/* --- HIỆU ỨNG PHÁO HOA --- */
+/* --- HIỆU ỨNG PHÁO HOA NỀN --- */
 @keyframes explosion {
   0% { transform: scale(0); opacity: 0; }
   50% { opacity: 1; }
@@ -67,6 +68,7 @@ body {
   animation: shine 3s linear infinite;
   filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
 }
+.intro-sub { color: var(--gold); letter-spacing: 3px; margin-top: 15px; font-size: 14px; }
 @keyframes shine { to { background-position: 200% center; } }
 
 /* --- BOOK CONTAINER --- */
@@ -78,15 +80,17 @@ body {
   transform-style: preserve-3d;
   transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
   box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+  /* MẶC ĐỊNH DESKTOP: Xoay từ giữa */
+  transform-origin: center center; 
 }
 
-/* TRẠNG THÁI MỞ (Mặc định cho Desktop) */
-.book.open { transform: translateX(170px); }
+/* TRẠNG THÁI MỞ (DESKTOP) */
+.book.open { transform: translateX(170px); } /* Dịch sang phải để cân bằng */
 .book.open .cover-leaf { transform: rotateY(-180deg); }
 
 .cover-leaf {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  transform-style: preserve-3d; transform-origin: left;
+  transform-style: preserve-3d; transform-origin: left; /* Bản lề trái */
   transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); z-index: 2;
 }
 
@@ -108,8 +112,9 @@ body {
   width: 85%; height: 90%; display: flex; flex-direction: column; justify-content: center; 
   background: rgba(0,0,0,0.2); 
 }
-.logo-text { font-size: 24px; font-weight: bold; margin-bottom: 15px; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
-.front h2 { font-size: 32px; margin: 10px 0; color: var(--gold); }
+.logo-text { font-size: 20px; font-weight: bold; margin-bottom: 10px; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+.front h2 { font-size: 32px; margin: 15px 0; color: var(--gold); }
+.line-small { width: 30px; height: 2px; background: var(--gold); margin: 0 auto; }
 
 /* --- TRANG TRÁI (BACK COVER) --- */
 .back-cover {
@@ -122,17 +127,17 @@ body {
 }
 .overlay {
   position: absolute; width: 100%; height: 100%;
-  background: linear-gradient(to top, rgba(0, 30, 60, 0.9), rgba(0, 30, 60, 0.4));
+  background: linear-gradient(to top, rgba(0, 30, 60, 0.95), rgba(0, 30, 60, 0.3));
 }
 .left-content {
   position: relative; z-index: 2; text-align: center; color: #fff; padding: 20px; 
 }
-.left-content h3 { font-size: 30px; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.left-content h3 { font-size: 28px; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 .small-line { width: 40px; height: 2px; background: #fff; margin: 0 auto 10px; }
 
 /* --- TRANG PHẢI (BODY) --- */
 .body-card {
-  background: var(--card-bg); color: #002b49; z-index: 1;
+  background: var(--card-bg); color: var(--text-blue); z-index: 1;
   box-shadow: inset 10px 0 20px rgba(0,0,0,0.05);
   display: flex; justify-content: center; align-items: center;
 }
@@ -141,9 +146,10 @@ body {
   display: flex; flex-direction: column; justify-content: space-around;
   border: 1px solid rgba(197, 160, 89, 0.2); margin: 10px;
 }
-.body-card h2 { color: #b38728; font-size: 30px; margin-bottom: 5px; }
+.body-card h2 { color: var(--gold-dark); font-size: 30px; margin-bottom: 5px; }
 .line { width: 50px; height: 3px; background: var(--gold-dim); margin: 0 auto; }
-.guest-name { font-weight: bold; font-size: 24px; color: #003366; margin: 10px 0; font-family: "Times New Roman", serif; }
+.invite-text { font-size: 14px; color: #555; font-style: italic; }
+.guest-name { font-weight: bold; font-size: 24px; color: var(--text-blue); margin: 10px 0; font-family: "Times New Roman", serif; }
 .details { text-align: left; font-size: 15px; margin-left: 5px; line-height: 2; color: #333; }
 .details p { border-bottom: 1px dashed #ddd; padding-bottom: 5px; }
 .footer { font-style: italic; color: #888; font-size: 13px; margin-top: 10px; }
@@ -152,15 +158,15 @@ body {
 /* --- NÚT MỞ THIỆP (NHỎ XINH) --- */
 .open-btn {
   position: absolute;
-  bottom: -55px; /* Sát thiệp */
+  bottom: -60px; /* Sát thiệp */
   left: 50%;
   transform: translateX(-50%);
-  padding: 6px 16px;
+  padding: 8px 20px;
   font-size: 13px;
   font-weight: normal; 
   letter-spacing: 0.5px;
-  background: linear-gradient(to right, #c5a059, #a8853c);
-  color: #fffbf0;
+  background: linear-gradient(to right, var(--gold-dim), var(--gold-dark));
+  color: var(--card-bg);
   font-family: 'Playfair Display', serif;
   border: 1px solid #b38f4b; 
   border-radius: 50px;
@@ -185,52 +191,64 @@ body {
 }
 
 /* =========================================
-   RESPONSIVE MOBILE (ĐÃ CHUẨN HÓA)
+   RESPONSIVE MOBILE (FIX LỆCH TUYỆT ĐỐI)
    ========================================= */
 
 @media screen and (max-width: 768px) {
   
-  /* 1. Thu nhỏ font chữ Intro */
-  .shimmer-text { font-size: 2rem; line-height: 1.2; }
+  /* 1. Intro gọn gàng hơn */
+  .shimmer-text { font-size: 2.5rem; line-height: 1.2; }
   .intro p { font-size: 11px !important; padding: 0 10px; }
 
-  /* 2. Thiết lập kích thước thiệp cố định trên mobile để dễ tính toán */
+  /* 2. Thiết lập kích thước thiệp cố định */
   .book {
-    width: 300px; 
-    height: 460px;
-    max-width: 85vw; /* Đảm bảo không tràn màn hình ngang */
+    width: 300px;  /* Chiều rộng cố định để dễ tính toán */
+    height: 450px;
+    
+    /* QUAN TRỌNG NHẤT: Neo điểm xoay vào cạnh trái (Gáy sách) */
+    transform-origin: left center; 
   }
   
-  /* Chỉnh lại chữ trong thiệp cho cân đối */
-  .front h2 { font-size: 22px; }
+  /* Chỉnh lại font chữ cho vừa */
+  .front h2 { font-size: 24px; }
   .logo-text { font-size: 16px; margin-bottom: 10px; }
   .body-card { padding: 15px; } 
-  .body-card h2 { font-size: 20px; margin-bottom: 5px; }
-  .guest-name { font-size: 16px; margin: 5px 0; }
-  .details { font-size: 12px; line-height: 1.6; margin-left: 0; }
-  .left-content h3 { font-size: 20px; }
+  .body-card h2 { font-size: 22px; margin-bottom: 5px; }
+  .guest-name { font-size: 18px; margin: 5px 0; }
+  .details { font-size: 12px; line-height: 1.8; margin-left: 0; }
+  
+  /* Chỉnh trang trái (Ảnh) */
+  .left-content h3 { font-size: 22px; }
   .left-content p { font-size: 12px; }
 
-  /* 3. QUAN TRỌNG: CĂN GIỮA THIỆP KHI MỞ */
+  /* 3. XỬ LÝ TRẠNG THÁI MỞ (ĐÃ FIX LỆCH) */
   .book.open {
-    /* translateX(50%): Đẩy thiệp sang phải 50% kích thước của nó => Đưa gáy sách về tâm màn hình
-       scale(0.52): Thu nhỏ lại để hiển thị trọn vẹn 2 trang */
-    transform: translateX(50%) scale(0.52); 
+    /* translateX(150px): Dịch gáy sách sang phải 150px (đúng bằng 1/2 chiều rộng 300px).
+       -> Đưa GÁY SÁCH về đúng tâm màn hình.
+       scale(0.53): Thu nhỏ lại vừa khít màn hình dọc. */
+    transform: translateX(150px) scale(0.53); 
   }
 
-  /* 4. Điều chỉnh pháo hoa nền nhỏ lại */
+  /* 4. Các thành phần khác */
   .firework-bg { transform: scale(0.6); }
   
-  /* 5. Điều chỉnh nút bấm trên mobile */
+  /* Nút bấm */
   .open-btn {
-    bottom: -45px;
-    font-size: 11px;
-    padding: 5px 12px;
+    bottom: -60px;
+    font-size: 12px;
+    padding: 6px 16px;
+    /* Reset transform để không bị ảnh hưởng bởi logic của Desktop */
+    left: 50%;
+    transform: translateX(-50%); 
+    width: max-content;
   }
+  
+  /* Tắt hover effect trên mobile */
+  .open-btn:hover { transform: translateX(-50%); }
 }
 
 /* Hỗ trợ màn hình ngang (Landscape) */
 @media screen and (max-width: 900px) and (orientation: landscape) {
-  .book { height: 80vh; width: 55vh; }
-  .book.open { transform: translateX(50%) scale(0.8); }
+  .book { height: 80vh; width: 55vh; transform-origin: left center; }
+  .book.open { transform: translateX(27.5vh) scale(0.8); }
 }
