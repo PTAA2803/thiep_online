@@ -1,295 +1,236 @@
 :root {
-    /* BACKGROUND MỚI: Xanh dương đêm huyền ảo */
-    --bg-gradient: radial-gradient(circle at 50% 30%, #1e3c72, #0f2027 80%);
-    
-    /* Màu chủ đạo */
-    --gold: #ffd700;       /* Vàng kim loại sáng */
-    --gold-dim: #c5a059;   /* Vàng đồng trầm hơn */
-    
-    /* Bìa thiệp: Xanh Navy đậm (Royal Blue) */
-    --cover-color: #002b49; 
-    --cover-gradient: linear-gradient(135deg, #004e92, #000428);
-    
-    /* Giấy bên trong: Màu kem sáng */
-    --card-bg: #fffbf0;
-  }
+  /* BACKGROUND: Xanh dương đêm huyền ảo */
+  --bg-gradient: radial-gradient(circle at 50% 30%, #1e3c72, #0f2027 80%);
   
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* MÀU CHỦ ĐẠO */
+  --gold: #ffd700;       /* Vàng kim loại sáng */
+  --gold-dim: #c5a059;   /* Vàng đồng trầm hơn */
   
-  body {
-    height: 100vh;
-    background: var(--bg-gradient);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Playfair Display', serif;
-    overflow: hidden;
-    perspective: 2000px;
-  }
+  /* BÌA THIỆP: Xanh Navy đậm */
+  --cover-color: #002b49; 
+  --cover-gradient: linear-gradient(135deg, #004e92, #000428);
   
-  /* --- HIỆU ỨNG PHÁO HOA (Đổi màu sang Vàng/Bạc) --- */
-  @keyframes explosion {
-    0% { transform: scale(0); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: scale(1.5); opacity: 0; }
-  }
-  
-  .firework-bg {
-    position: absolute; width: 8px; height: 8px; border-radius: 50%;
-    /* Đổi màu bóng đổ sang tone xanh dương sáng và vàng */
-    box-shadow: 
-      0 0 0 4px rgba(255, 215, 0, 0.6), /* Vàng */
-      0 0 0 8px rgba(0, 191, 255, 0.4), /* Xanh cyan */
-      0 0 20px rgba(255, 255, 255, 0.8); /* Trắng sáng */
-    animation: explosion 2.5s infinite ease-out;
-    opacity: 0; z-index: 1;
-  }
-  
-  .firework-mini {
-    position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%;
-    /* Pháo hoa nhỏ màu vàng */
-    box-shadow: 
-      0 -12px 0 #ffd700, 10px -8px 0 #ffd700, 12px 0 0 #fff, 
-      10px 8px 0 #ffd700, 0 12px 0 #ffd700, -10px 8px 0 #fff, 
-      -12px 0 0 #ffd700, -10px -8px 0 #ffd700;
-    animation: spinPop 2s infinite linear; z-index: 5;
-  }
-  
-  @keyframes spinPop {
-    0% { transform: scale(0) rotate(0deg); opacity: 1; }
-    100% { transform: scale(1.5) rotate(45deg); opacity: 0; }
-  }
-  
-  /* --- INTRO --- */
-  .intro { position: absolute; text-align: center; z-index: 100; transition: opacity 0.8s; }
-  .shimmer-text {
-    font-size: 4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 5px;
-    /* Hiệu ứng chữ vàng kim loại sáng bóng */
-    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-    background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    animation: shine 3s linear infinite;
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
-  }
-  @keyframes shine { to { background-position: 200% center; } }
-  
-  /* --- BOOK CONTAINER --- */
-  .book-wrapper { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; z-index: 10; }
-  .book-wrapper.visible { opacity: 1; transform: translateY(0); }
-  
-  .book {
-    position: relative; width: 340px; height: 500px;
-    transform-style: preserve-3d;
-    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.5); /* Bóng mềm hơn */
-  }
-  
-  .book.open { transform: translateX(170px); }
-  .book.open .cover-leaf { transform: rotateY(-180deg); }
-  
-  .cover-leaf {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    transform-style: preserve-3d; transform-origin: left;
-    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); z-index: 2;
-  }
-  
-  .front, .back-cover, .body-card {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    border-radius: 6px; backface-visibility: hidden; overflow: hidden;
-  }
-  
-  /* --- BÌA TRƯỚC (MỚI: XANH NAVY) --- */
-  .front {
-    background: var(--cover-gradient);
-    color: var(--gold); 
-    border: 1px solid var(--gold);
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-    display: flex; justify-content: center; align-items: center; z-index: 2;
-  }
-  .front-content { 
-    border: 2px solid var(--gold); padding: 20px; text-align: center; 
-    width: 85%; height: 90%; display: flex; flex-direction: column; justify-content: center; 
-    background: rgba(0,0,0,0.2); /* Làm tối nhẹ để chữ nổi hơn */
-  }
-  .logo-text { font-size: 24px; font-weight: bold; margin-bottom: 15px; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
-  .front h2 { font-size: 32px; margin: 10px 0; color: var(--gold); }
-  
-  /* --- TRANG TRÁI (BACK COVER) --- */
-  .back-cover {
-    background: #000; transform: rotateY(180deg);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    box-shadow: inset -10px 0 30px rgba(0,0,0,0.6);
-  }
-  .back-cover img {
-    position: absolute; width: 100%; height: 100%; object-fit: cover;
-  }
-  /* Overlay màu xanh dương thay vì đen/đỏ */
-  .overlay {
-    position: absolute; width: 100%; height: 100%;
-    background: linear-gradient(to top, rgba(0, 30, 60, 0.9), rgba(0, 30, 60, 0.4));
-  }
-  .left-content {
-    position: relative; z-index: 2; text-align: center; color: #fff;
-    padding: 20px; 
-  }
-  .left-content h3 { font-size: 30px; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-  .small-line { width: 40px; height: 2px; background: #fff; margin: 0 auto 10px; }
-  
-  /* --- TRANG PHẢI (BODY) --- */
-  .body-card {
-    background: var(--card-bg); color: #002b49; z-index: 1;
-    box-shadow: inset 10px 0 20px rgba(0,0,0,0.05);
-    display: flex; justify-content: center; align-items: center;
-  }
-  .card-content {
-    padding: 30px; text-align: center; width: 100%; height: 100%;
-    display: flex; flex-direction: column; justify-content: space-around;
-    border: 1px solid rgba(197, 160, 89, 0.2); margin: 10px;
-  }
-  .body-card h2 { color: #b38728; font-size: 30px; margin-bottom: 5px; }
-  .line { width: 50px; height: 3px; background: var(--gold-dim); margin: 0 auto; }
-  .guest-name { font-weight: bold; font-size: 24px; color: #003366; margin: 10px 0; font-family: "Times New Roman", serif; }
-  .details { text-align: left; font-size: 15px; margin-left: 5px; line-height: 2; color: #333; }
-  .details p { border-bottom: 1px dashed #ddd; padding-bottom: 5px; }
-  .footer { font-style: italic; color: #888; font-size: 13px; margin-top: 10px; }
-  
-  .hidden { display: none; }
+  /* GIẤY BÊN TRONG: Màu kem sáng */
+  --card-bg: #fffbf0;
+}
 
-  /* =========================================
-   RESPONSIVE MOBILE (Dán vào cuối file CSS)
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  height: 100vh;
+  background: var(--bg-gradient);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Playfair Display', serif;
+  overflow: hidden;
+  perspective: 2000px;
+}
+
+/* --- HIỆU ỨNG PHÁO HOA --- */
+@keyframes explosion {
+  0% { transform: scale(0); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.firework-bg {
+  position: absolute; width: 8px; height: 8px; border-radius: 50%;
+  box-shadow: 
+    0 0 0 4px rgba(255, 215, 0, 0.6), 
+    0 0 0 8px rgba(0, 191, 255, 0.4), 
+    0 0 20px rgba(255, 255, 255, 0.8);
+  animation: explosion 2.5s infinite ease-out;
+  opacity: 0; z-index: 1;
+}
+
+.firework-mini {
+  position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%;
+  box-shadow: 
+    0 -12px 0 #ffd700, 10px -8px 0 #ffd700, 12px 0 0 #fff, 
+    10px 8px 0 #ffd700, 0 12px 0 #ffd700, -10px 8px 0 #fff, 
+    -12px 0 0 #ffd700, -10px -8px 0 #ffd700;
+  animation: spinPop 2s infinite linear; z-index: 5;
+}
+
+@keyframes spinPop {
+  0% { transform: scale(0) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1.5) rotate(45deg); opacity: 0; }
+}
+
+/* --- INTRO --- */
+.intro { position: absolute; text-align: center; z-index: 100; transition: opacity 0.8s; }
+.shimmer-text {
+  font-size: 4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 5px;
+  background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+  background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: shine 3s linear infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+}
+@keyframes shine { to { background-position: 200% center; } }
+
+/* --- BOOK CONTAINER --- */
+.book-wrapper { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; z-index: 10; }
+.book-wrapper.visible { opacity: 1; transform: translateY(0); }
+
+.book {
+  position: relative; width: 340px; height: 500px;
+  transform-style: preserve-3d;
+  transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+}
+
+/* TRẠNG THÁI MỞ (Mặc định cho Desktop) */
+.book.open { transform: translateX(170px); }
+.book.open .cover-leaf { transform: rotateY(-180deg); }
+
+.cover-leaf {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  transform-style: preserve-3d; transform-origin: left;
+  transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); z-index: 2;
+}
+
+.front, .back-cover, .body-card {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  border-radius: 6px; backface-visibility: hidden; overflow: hidden;
+}
+
+/* --- BÌA TRƯỚC --- */
+.front {
+  background: var(--cover-gradient);
+  color: var(--gold); 
+  border: 1px solid var(--gold);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+  display: flex; justify-content: center; align-items: center; z-index: 2;
+}
+.front-content { 
+  border: 2px solid var(--gold); padding: 20px; text-align: center; 
+  width: 85%; height: 90%; display: flex; flex-direction: column; justify-content: center; 
+  background: rgba(0,0,0,0.2); 
+}
+.logo-text { font-size: 24px; font-weight: bold; margin-bottom: 15px; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+.front h2 { font-size: 32px; margin: 10px 0; color: var(--gold); }
+
+/* --- TRANG TRÁI (BACK COVER) --- */
+.back-cover {
+  background: #000; transform: rotateY(180deg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  box-shadow: inset -10px 0 30px rgba(0,0,0,0.6);
+}
+.back-cover img {
+  position: absolute; width: 100%; height: 100%; object-fit: cover;
+}
+.overlay {
+  position: absolute; width: 100%; height: 100%;
+  background: linear-gradient(to top, rgba(0, 30, 60, 0.9), rgba(0, 30, 60, 0.4));
+}
+.left-content {
+  position: relative; z-index: 2; text-align: center; color: #fff; padding: 20px; 
+}
+.left-content h3 { font-size: 30px; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.small-line { width: 40px; height: 2px; background: #fff; margin: 0 auto 10px; }
+
+/* --- TRANG PHẢI (BODY) --- */
+.body-card {
+  background: var(--card-bg); color: #002b49; z-index: 1;
+  box-shadow: inset 10px 0 20px rgba(0,0,0,0.05);
+  display: flex; justify-content: center; align-items: center;
+}
+.card-content {
+  padding: 30px; text-align: center; width: 100%; height: 100%;
+  display: flex; flex-direction: column; justify-content: space-around;
+  border: 1px solid rgba(197, 160, 89, 0.2); margin: 10px;
+}
+.body-card h2 { color: #b38728; font-size: 30px; margin-bottom: 5px; }
+.line { width: 50px; height: 3px; background: var(--gold-dim); margin: 0 auto; }
+.guest-name { font-weight: bold; font-size: 24px; color: #003366; margin: 10px 0; font-family: "Times New Roman", serif; }
+.details { text-align: left; font-size: 15px; margin-left: 5px; line-height: 2; color: #333; }
+.details p { border-bottom: 1px dashed #ddd; padding-bottom: 5px; }
+.footer { font-style: italic; color: #888; font-size: 13px; margin-top: 10px; }
+.hidden { display: none; }
+
+/* --- NÚT MỞ THIỆP (NHỎ XINH) --- */
+.open-btn {
+  position: absolute;
+  bottom: -55px; /* Sát thiệp */
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: normal; 
+  letter-spacing: 0.5px;
+  background: linear-gradient(to right, #c5a059, #a8853c);
+  color: #fffbf0;
+  font-family: 'Playfair Display', serif;
+  border: 1px solid #b38f4b; 
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 20;
+  transition: all 0.3s ease;
+  animation: pulseBtn 2.5s infinite;
+}
+
+.open-btn:hover {
+  transform: translateX(-50%) translateY(-2px);
+  background: linear-gradient(to right, #d4af6a, #b6924a);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+@keyframes pulseBtn {
+  0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(197, 160, 89, 0); } 
+  100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
+}
+
+/* =========================================
+   RESPONSIVE MOBILE (ĐÃ CHUẨN HÓA)
    ========================================= */
 
 @media screen and (max-width: 768px) {
   
-    /* 1. Điều chỉnh chữ Intro nhỏ lại cho vừa màn hình dọc */
-    .shimmer-text {
-      font-size: 2.5rem; /* Giảm từ 4rem xuống */
-      line-height: 1.2;
-    }
-    
-    .intro p {
-      font-size: 12px !important;
-      padding: 0 20px;
-    }
-  
-    /* 2. Điều chỉnh kích thước thiệp ban đầu (lúc đóng) */
-    .book {
-      width: 80vw;  /* Chiếm 80% chiều rộng màn hình */
-      height: 120vw; /* Chiều cao tự động theo tỷ lệ */
-      max-height: 500px; /* Không cao quá 500px */
-      max-width: 340px;
-    }
-    
-    /* Chỉnh lại font chữ trong thiệp cho cân đối với size mới */
-    .front h2 { font-size: 24px; }
-    .logo-text { font-size: 18px; }
-    
-    .body-card h2 { font-size: 22px; }
-    .guest-name { font-size: 18px; }
-    .details { font-size: 13px; line-height: 1.6; }
-    
-    /* 3. QUAN TRỌNG: Xử lý trạng thái MỞ trên mobile */
-    /* Vì màn hình dọc hẹp, khi mở ra 2 trang sẽ rất rộng.
-       Ta cần dùng scale để thu nhỏ toàn bộ thiệp lại cho vừa khung */
-    
-    .book.open {
-      /* translateX(40vw): Dịch sang phải một nửa chiều rộng thiệp
-         scale(0.55): Thu nhỏ còn 55% kích thước thật để vừa màn hình dọc
-      */
-      transform: translateX(40vw) scale(0.55); 
-    }
-  
-    /* Điều chỉnh vị trí pháo hoa nền để không bị che mất trên mobile */
-    .firework-bg {
-      transform: scale(0.7); /* Pháo hoa nhỏ hơn chút */
-    }
-    
-    /* 4. Tinh chỉnh trang trái (Ảnh & Chữ) trên mobile */
-    .left-content h3 {
-      font-size: 24px; /* Chữ nhỏ hơn */
-    }
-    
-    /* Ẩn bớt pháo hoa nhỏ nếu làm rối mắt trên màn hình bé (tùy chọn) */
-    .firework-mini {
-      opacity: 0.7;
-    }
+  /* 1. Thu nhỏ font chữ Intro */
+  .shimmer-text { font-size: 2rem; line-height: 1.2; }
+  .intro p { font-size: 11px !important; padding: 0 10px; }
+
+  /* 2. Thiết lập kích thước thiệp cố định trên mobile để dễ tính toán */
+  .book {
+    width: 300px; 
+    height: 460px;
+    max-width: 85vw; /* Đảm bảo không tràn màn hình ngang */
   }
   
-  /* Hỗ trợ màn hình ngang (Landscape) trên điện thoại */
-  @media screen and (max-width: 900px) and (orientation: landscape) {
-    .book {
-      height: 80vh; /* Cao bằng 80% màn hình */
-      width: 55vh;  /* Rộng theo tỷ lệ */
-    }
-    
-    .book.open {
-      /* Màn hình ngang thì chỉ cần thu nhỏ ít hơn (0.8) */
-      transform: translateX(28vh) scale(0.8);
-    }
-    
-    .shimmer-text {
-      font-size: 3rem;
-    }
+  /* Chỉnh lại chữ trong thiệp cho cân đối */
+  .front h2 { font-size: 22px; }
+  .logo-text { font-size: 16px; margin-bottom: 10px; }
+  .body-card { padding: 15px; } 
+  .body-card h2 { font-size: 20px; margin-bottom: 5px; }
+  .guest-name { font-size: 16px; margin: 5px 0; }
+  .details { font-size: 12px; line-height: 1.6; margin-left: 0; }
+  .left-content h3 { font-size: 20px; }
+  .left-content p { font-size: 12px; }
+
+  /* 3. QUAN TRỌNG: CĂN GIỮA THIỆP KHI MỞ */
+  .book.open {
+    /* translateX(50%): Đẩy thiệp sang phải 50% kích thước của nó => Đưa gáy sách về tâm màn hình
+       scale(0.52): Thu nhỏ lại để hiển thị trọn vẹn 2 trang */
+    transform: translateX(50%) scale(0.52); 
   }
 
- /* --- NÚT MỞ THIỆP (Phiên bản nhỏ xinh, màu trầm) --- */
-.open-btn {
-    position: absolute;
-    bottom: -55px; /* Vị trí sát thiệp */
-    left: 50%;
-    transform: translateX(-50%);
+  /* 4. Điều chỉnh pháo hoa nền nhỏ lại */
+  .firework-bg { transform: scale(0.6); }
   
-    /* KÍCH THƯỚC SIÊU NHỎ GỌN */
-    padding: 6px 16px;
-    font-size: 13px;
-    font-weight: normal; /* Bỏ in đậm cho thanh thoát */
-    letter-spacing: 0.5px;
-  
-    /* MÀU NỀN TRẦM HƠN (Vàng đồng gradient tối) */
-    background: linear-gradient(to right, #c5a059, #a8853c);
-  
-    /* MÀU CHỮ SÁNG (Màu kem để dễ đọc) */
-    color: #fffbf0;
-  
-    font-family: 'Playfair Display', serif;
-    /* Thêm viền mỏng cùng tông màu để tạo độ sắc nét */
-    border: 1px solid #b38f4b; 
-    border-radius: 50px;
-    cursor: pointer;
-    
-    /* Bóng đổ màu tối, không dùng bóng vàng sáng nữa */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    
-    z-index: 20;
-    transition: all 0.3s ease;
-    animation: pulseBtn 2.5s infinite; /* Đập chậm lại cho nhẹ nhàng */
+  /* 5. Điều chỉnh nút bấm trên mobile */
+  .open-btn {
+    bottom: -45px;
+    font-size: 11px;
+    padding: 5px 12px;
   }
-  
-  /* Hiệu ứng khi di chuột vào nút */
-  .open-btn:hover {
-    transform: translateX(-50%) translateY(-2px); /* Nổi lên nhẹ khi hover */
-    background: linear-gradient(to right, #d4af6a, #b6924a); /* Sáng lên xíu khi hover */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    color: #fff;
-  }
-  
-  /* Animation nút đập nhẹ nhàng, dùng màu bóng tối hơn */
-  @keyframes pulseBtn {
-    0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
-    70% { box-shadow: 0 0 0 8px rgba(197, 160, 89, 0); } /* Lan tỏa nhẹ */
-    100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
-  }
-  
-  /* =========================================
-     RESPONSIVE MOBILE
-     ========================================= */
-  
-  @media screen and (max-width: 768px) {
-    /* ... (Các code khác của mobile giữ nguyên) ... */
-  
-    /* Điều chỉnh nút trên điện thoại cực nhỏ */
-    .open-btn {
-      bottom: -45px;
-      font-size: 11px; /* Chữ nhỏ xíu */
-      padding: 5px 12px; /* Padding tối thiểu */
-    }
-  }
+}
+
+/* Hỗ trợ màn hình ngang (Landscape) */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+  .book { height: 80vh; width: 55vh; }
+  .book.open { transform: translateX(50%) scale(0.8); }
+}
