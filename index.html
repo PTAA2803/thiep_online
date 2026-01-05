@@ -41,21 +41,21 @@
             pointer-events: none; z-index: 100; opacity: 0.4; mix-blend-mode: multiply;
         }
 
-        /* --- 1. PHONG BÌ (ĐÃ SỬA CĂN GIỮA) --- */
+        /* --- 1. PHONG BÌ --- */
         .envelope-container {
-            position: fixed; /* Đổi thành fixed để ghim chặt vào màn hình */
-            top: 0; left: 0; width: 100%; height: 100%; /* Phủ kín màn hình */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: 100;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Căn giữa theo chiều dọc */
+            justify-content: center;
             transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            background-color: var(--bg-color); /* Nền che phía sau */
+            background-color: var(--bg-color);
         }
         
         .envelope-container.hidden {
-            transform: translateY(-120%); /* Bay lên trên khi mở */
+            transform: translateY(-120%);
             opacity: 0;
             pointer-events: none;
         }
@@ -70,7 +70,6 @@
             justify-content: center;
             align-items: center;
             border-radius: 4px;
-            /* Không dùng margin-top ở đây nữa để tránh lệch */
         }
         
         .envelope::after {
@@ -130,13 +129,19 @@
             text-align: center;
         }
 
-        /* --- THIỆP XANH: SÓNG TO & MỀM --- */
+        /* --- THIỆP XANH: DÁNG MỚI (MỀM HƠN) --- */
         .card-green {
-            background: linear-gradient(160deg, var(--card-dark-start), var(--card-dark-end));
-            color: var(--text-white);
-            clip-path: path("M 30 0 C 70 15 110 -10 150 10 C 190 30 230 -5 270 15 C 310 35 350 5 390 25 L 420 40 C 435 80 410 120 425 160 C 440 200 415 240 430 280 C 445 320 420 360 430 400 C 440 440 415 480 430 520 C 445 560 420 600 390 610 C 350 625 310 595 270 615 C 230 635 190 605 150 620 C 110 635 70 605 30 620 C -10 600 15 560 5 520 C -5 480 20 440 5 400 C -10 360 15 320 5 280 C -5 240 20 200 5 160 C -10 120 15 80 5 40 C -5 20 10 5 30 0 Z");
-            filter: drop-shadow(0 20px 30px rgba(33, 49, 35, 0.5));
-        }
+    background: linear-gradient(160deg, var(--card-dark-start), var(--card-dark-end));
+    color: var(--text-white);
+    /* Đường cắt này tạo độ nhám nhẹ ở viền, giữ form hình chữ nhật, không bị phình */
+    clip-path: polygon(
+        0% 0%, 5% 1%, 10% 0%, 15% 2%, 20% 0%, 25% 1%, 30% 0%, 35% 2%, 40% 0%, 45% 1%, 50% 0%, 55% 2%, 60% 0%, 65% 1%, 70% 0%, 75% 2%, 80% 0%, 85% 1%, 90% 0%, 95% 2%, 100% 0%, 
+        100% 5%, 98% 10%, 100% 15%, 99% 20%, 100% 25%, 98% 30%, 100% 35%, 99% 40%, 100% 45%, 98% 50%, 100% 55%, 99% 60%, 100% 65%, 98% 70%, 100% 75%, 99% 80%, 100% 85%, 98% 90%, 100% 95%, 
+        100% 100%, 95% 99%, 90% 100%, 85% 98%, 80% 100%, 75% 99%, 70% 100%, 65% 98%, 60% 100%, 55% 99%, 50% 100%, 45% 98%, 40% 100%, 35% 99%, 30% 100%, 25% 98%, 20% 100%, 15% 99%, 10% 100%, 5% 98%, 0% 100%,
+        0% 95%, 2% 90%, 0% 85%, 1% 80%, 0% 75%, 2% 70%, 0% 65%, 1% 60%, 0% 55%, 2% 50%, 0% 45%, 1% 40%, 0% 35%, 2% 30%, 0% 25%, 1% 20%, 0% 15%, 2% 10%, 0% 5%
+    );
+    filter: drop-shadow(0 20px 30px rgba(33, 49, 35, 0.5));
+}
 
         /* --- THIỆP TRẮNG: VUÔNG BO GÓC --- */
         .card-white {
@@ -161,7 +166,6 @@
             line-height: 1;
         }
         
-        /* Typography riêng cho phong bì */
         .envelope-title {
             font-family: 'Dancing Script', cursive;
             font-size: 4.5rem;
@@ -212,27 +216,22 @@
         .br { bottom: 35px; right: 35px; transform: rotate(135deg); }
 
 
-        /* --- MOBILE ADJUSTMENTS (SỬA LỖI LỆCH) --- */
+        /* --- MOBILE ADJUSTMENTS --- */
         @media (max-width: 950px) {
-            /* 1. Sửa lỗi hiển thị phong bì trên điện thoại */
             .envelope-container {
-                /* Xóa margin âm gây lệch */
                 margin: 0;
-                transform: none !important; /* Không scale container phong bì */
+                transform: none !important;
             }
             
-            /* Điều chỉnh tiêu đề cho vừa màn hình điện thoại */
             .envelope-title {
-                font-size: 3rem; /* Nhỏ hơn để không bị tràn */
+                font-size: 3rem;
                 margin: 10px 0 30px 0;
             }
             
             .envelope {
-                /* Thu nhỏ phong bì một chút trên điện thoại */
                 transform: scale(0.9);
             }
 
-            /* 2. Sửa lỗi hiển thị 2 thiệp song song */
             .main-stage.visible {
                 transform: scale(0.40); 
                 flex-direction: row; 
