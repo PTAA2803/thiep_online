@@ -4,18 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thiệp Mời Year End Party</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Bảng màu lấy cảm hứng từ ảnh mẫu */
-            --bg-color: #f3f0e7;      
+            /* --- BẢNG MÀU ẤM ÁP (NHƯ CODE CŨ) --- */
+            --bg-color: #f4f1ea;      /* Nền be ấm */
             --envelope-col: #4F6F52;  
-            --card-dark: #3E5C40;     /* Màu xanh rêu đậm như trong ảnh */
-            --card-light: #fffbf0;    
+            --card-dark-start: #4a6e4d; /* Gradient xanh rêu */
+            --card-dark-end: #38523a;
+            --card-light: #fffcf5;    /* Kem sáng */
             
-            --text-gold: #E5C07B;     /* Vàng kim nhạt sang trọng */
+            --text-gold: #dfbc73;     /* Vàng kim */
             --text-green: #2c3e2e;    
-            --text-white: #ffffff;    
+            --text-white: #ffffff;
+            
+            --shadow-soft: 0 15px 35px rgba(44, 62, 46, 0.15), 0 5px 15px rgba(0,0,0,0.05);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,31 +26,36 @@
         body {
             background-color: var(--bg-color);
             font-family: 'Montserrat', sans-serif;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* Hiệu ứng vân giấy nền */
+        body::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 100; opacity: 0.4; mix-blend-mode: multiply;
         }
 
         /* --- 1. PHONG BÌ --- */
         .envelope-container {
             position: absolute;
-            z-index: 50;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.8s ease;
-            width: 100%;
+            z-index: 100;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-
+        
         .envelope-container.hidden {
+            transform: translateY(-100vh) scale(0.5);
             opacity: 0;
-            transform: scale(1.5);
             pointer-events: none;
-            visibility: hidden;
         }
 
         .envelope {
@@ -55,236 +63,291 @@
             height: 220px;
             background-color: var(--envelope-col);
             position: relative;
-            border-radius: 5px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            box-shadow: var(--shadow-soft);
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 20px;
+            border-radius: 4px;
         }
-
-        .envelope::before {
+        
+        .envelope::after {
             content: ''; position: absolute; top: 0; left: 0;
             border-left: 160px solid transparent;
             border-right: 160px solid transparent;
-            border-top: 120px solid #2d4a30;
-            width: 0; height: 0;
+            border-top: 110px solid rgba(0,0,0,0.15);
         }
 
         .wax-seal {
-            width: 50px; height: 50px; background: #a83232;
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.3); border: 2px solid #c74444;
-            position: relative; z-index: 2; font-size: 24px;
+            width: 55px; height: 55px;
+            background: linear-gradient(135deg, #a83232, #8a2828);
+            border-radius: 50%;
+            border: 3px solid #b54747;
+            box-shadow: 2px 3px 8px rgba(0,0,0,0.4);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 10; font-size: 26px; color: #FFD700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
-        .click-hint { margin-top: 20px; font-style: italic; color: var(--text-green); opacity: 0.7; animation: pulse 2s infinite; }
+        .tap-hint {
+            margin-top: 25px;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: var(--text-green);
+            animation: fadeInOut 2s infinite;
+        }
 
-        /* --- 2. KHUNG CHỨA THIỆP --- */
-        .cards-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: none;
-            justify-content: center;
-            align-items: center;
+        /* --- 2. SÂN KHẤU CHÍNH (CONTAINER) --- */
+        .main-stage {
+            display: flex;
             gap: 40px;
-            padding: 20px;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 1.2s ease-out;
+            width: 900px; 
+            height: 700px;
         }
 
-        .cards-wrapper.visible { display: flex; }
+        .main-stage.visible {
+            opacity: 1;
+            transform: scale(1); 
+        }
 
-        /* --- STYLE VIỀN SÓNG TỰ DO (ORGANIC WAVE) --- */
-        .wavy-card {
-            width: 380px;
-            min-height: 560px;
+        /* --- CẤU HÌNH THIỆP CHUNG --- */
+        .card {
+            width: 420px;  /* Kích thước to rõ */
+            height: 620px;
             position: relative;
-            padding: 40px 30px;
+            padding: 50px 35px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            justify-content: center;
-            
-            /* Dùng clip-path với đường dẫn SVG tùy chỉnh để tạo hình sóng tự do */
-            /* Đường dẫn này mô phỏng các đường cong không đều của ảnh mẫu */
-            clip-path: path('M 20 0 C 40 10 80 -10 120 15 C 160 -5 200 20 240 5 C 280 25 320 0 350 20 C 380 10 380 40 370 80 C 390 120 365 160 375 200 C 395 240 370 280 380 320 C 360 360 390 400 370 440 C 385 480 360 510 340 530 C 300 550 260 520 220 540 C 180 515 140 550 100 530 C 60 555 30 520 10 540 C -10 500 20 460 5 420 C -15 380 15 340 0 300 C -20 260 10 220 0 180 C -15 140 15 100 5 60 C -10 30 20 10 20 0 Z');
-            
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-            /* Lưu ý: drop-shadow không hoạt động tốt với clip-path trên một số trình duyệt */
         }
 
-        .wavy-card.active { opacity: 1; transform: scale(1); }
-
-        /* --- MÀU SẮC & TEXT --- */
-        .card-dark { background-color: var(--card-dark); color: var(--text-white); }
-        .card-dark .highlight { color: var(--text-gold); }
-        .card-dark .card-title { color: var(--text-gold); }
-        
-        .card-light { background-color: var(--card-light); color: var(--text-green); }
-        .card-light .agenda-header { color: var(--card-dark); border-bottom: 1px solid var(--card-dark); }
-        .card-light .t-time { color: var(--card-dark); }
-        .card-light .corner { color: var(--card-dark); opacity: 0.2; }
-
-        .font-dancing { font-family: 'Dancing Script', cursive; }
-        .font-playfair { font-family: 'Playfair Display', serif; }
-        
-        .card-title { font-size: 3.2rem; margin: 10px 0; line-height: 1.1; }
-        .card-sub { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; font-weight: 500;}
-        .divider { width: 40px; height: 1px; background: rgba(255,255,255,0.4); margin: 25px auto; }
-        .card-light .divider { background: rgba(79, 111, 82, 0.4); } 
-        
-        .info-row { margin: 12px 0; font-size: 1.05rem; line-height: 1.55; }
-        .highlight { font-weight: 700; font-size: 1.3rem; }
-
-        .timeline { list-style: none; text-align: left; width: 100%; padding-left: 15px; margin-top: 15px;}
-        .timeline li { margin-bottom: 18px; display: flex; font-size: 0.95rem; border-bottom: 1px dashed rgba(0,0,0,0.08); padding-bottom: 8px; align-items: center;}
-        .t-time { font-weight: 700; min-width: 60px; font-family: 'Montserrat'; font-size: 1rem; }
-
-        .corner { position: absolute; font-size: 1.8rem; opacity: 0.5; z-index: 5; }
-        .tl { top: 35px; left: 30px; transform: rotate(-30deg); }
-        .br { bottom: 35px; right: 30px; transform: rotate(150deg); }
-        .card-dark .corner { color: var(--text-gold); }
-
-        /* --- RESPONSIVE MOBILE SONG SONG --- */
-        @media (max-width: 850px) {
-            .cards-wrapper {
-                flex-direction: row; /* Xếp ngang */
-                flex-wrap: nowrap;
-                align-items: center;
-                justify-content: center;
-                gap: 8px;
-                padding: 10px;
-                width: 100%;
-                overflow: hidden;
-            }
-
-            .wavy-card {
-                width: 48vw; /* Chiếm gần một nửa màn hình */
-                min-width: 0;
-                height: 72vh;
-                min-height: 0;
-                padding: 20px 8px;
-                margin: 0;
-                /* Clip-path sẽ tự động co giãn theo kích thước thẻ */
-            }
-
-            /* Thu nhỏ chữ trên mobile */
-            .card-title { font-size: 1.9rem; margin: 8px 0; }
-            .card-sub { font-size: 0.55rem; margin-bottom: 12px; letter-spacing: 1px;}
-            .divider { margin: 15px auto; }
-            .info-row { font-size: 0.75rem; line-height: 1.4; margin: 8px 0; }
-            .highlight { font-size: 0.95rem; }
-            .font-playfair { font-size: 0.65rem; }
+        /* --- THIỆP XANH: SÓNG TO & MỀM (ORGANIC WAVE) --- */
+        .card-green {
+            background: linear-gradient(160deg, var(--card-dark-start), var(--card-dark-end));
+            color: var(--text-white);
             
-            .agenda-header { font-size: 1.3rem !important; margin-bottom: 15px !important; padding-bottom: 8px !important;}
-            .timeline { padding-left: 5px; margin-top: 5px; }
-            .timeline li { margin-bottom: 10px; font-size: 0.65rem; padding-bottom: 5px; }
-            .t-time { min-width: 40px; font-size: 0.7rem; }
-            .wavy-card .font-dancing.footer { font-size: 1.1rem !important; margin-top: 15px !important; }
-
-            .corner { font-size: 1rem; top: 15px; left: 10px; }
-            .br { bottom: 15px; right: 10px; }
-
-            .envelope-container { zoom: 0.75; }
+            /* Đường cắt SVG mới: Sóng to, bầu bĩnh, tự nhiên như ảnh mẫu */
+            clip-path: path("M 30 0 C 70 15 110 -10 150 10 C 190 30 230 -5 270 15 C 310 35 350 5 390 25 L 420 40 C 435 80 410 120 425 160 C 440 200 415 240 430 280 C 445 320 420 360 430 400 C 440 440 415 480 430 520 C 445 560 420 600 390 610 C 350 625 310 595 270 615 C 230 635 190 605 150 620 C 110 635 70 605 30 620 C -10 600 15 560 5 520 C -5 480 20 440 5 400 C -10 360 15 320 5 280 C -5 240 20 200 5 160 C -10 120 15 80 5 40 C -5 20 10 5 30 0 Z");
+            
+            filter: drop-shadow(0 20px 30px rgba(33, 49, 35, 0.5));
         }
 
-        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+        /* --- THIỆP TRẮNG: VUÔNG BO GÓC --- */
+        .card-white {
+            background-color: var(--card-light);
+            border-radius: 15px; /* Bo góc mềm */
+            color: var(--text-green);
+            box-shadow: 
+                0 5px 15px rgba(0,0,0,0.05),
+                0 20px 40px rgba(44, 62, 46, 0.1);
+            border: 1px solid rgba(79, 111, 82, 0.1);
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .gold-text {
+            color: var(--text-gold);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.25);
+            font-weight: 700;
+        }
+
+        h1.main-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            margin: 15px 0;
+            line-height: 1;
+        }
+        
+        .sub-title {
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .divider {
+            width: 50px;
+            height: 1px;
+            background: rgba(255,255,255,0.6);
+            margin: 30px auto;
+        }
+        .card-white .divider { background: rgba(79, 111, 82, 0.4); }
+
+        .info-block {
+            margin: 18px 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            line-height: 1.4;
+        }
+        .info-block strong {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Timeline style */
+        .timeline-header {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            color: var(--text-green);
+            border-bottom: 2px solid rgba(79, 111, 82, 0.2);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 22px;
+            width: 100%;
+            text-align: left;
+            align-items: baseline;
+            font-size: 1.1rem;
+            border-bottom: 1px dotted rgba(0,0,0,0.1);
+            padding-bottom: 8px;
+        }
+        .time {
+            font-weight: 700;
+            color: var(--text-green);
+            width: 70px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .decor-corner {
+            position: absolute;
+            font-size: 2.2rem;
+            opacity: 0.8;
+            color: var(--text-gold);
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.2));
+        }
+        .card-white .decor-corner { color: var(--text-green); opacity: 0.2; }
+        .tl { top: 35px; left: 35px; transform: rotate(-45deg); }
+        .br { bottom: 35px; right: 35px; transform: rotate(135deg); }
+
+
+        /* --- MOBILE MAGIC: HIỂN THỊ SONG SONG BẰNG CÁCH THU NHỎ --- */
+        @media (max-width: 950px) {
+            .main-stage.visible {
+                /* Bí kíp: Thu nhỏ toàn bộ cụm 2 thiệp xuống 40% để vừa khít màn hình dọc */
+                transform: scale(0.40); 
+                flex-direction: row; /* Bắt buộc xếp ngang */
+                /* Căn chỉnh lại vị trí sau khi thu nhỏ */
+                transform-origin: center; 
+            }
+            
+            body { 
+                /* Cho phép cuộn ngang nhẹ nếu màn hình quá bé, hoặc giữ cố định */
+                align-items: center; 
+            }
+            
+            /* Hack: Thu gọn khoảng trắng thừa do scale gây ra */
+            .main-stage { margin: -180px 0; }
+            
+            .envelope-container { transform: scale(0.85); margin-bottom: 20px;}
+        }
+        
+        /* Tinh chỉnh cho màn hình siêu nhỏ (iPhone SE, v.v.) */
+        @media (max-width: 400px) {
+             .main-stage.visible {
+                transform: scale(0.36); /* Thu nhỏ hơn xíu nữa */
+                gap: 20px;
+            }
+        }
+
+        @keyframes fadeInOut { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="envelope-container" id="envelopeScreen" onclick="openCards()">
-        <h3 style="font-family: 'Playfair Display'; text-transform: uppercase; margin-bottom: 10px; color: var(--text-green);">Trân trọng kính mời</h3>
-        <h1 class="font-dancing" style="font-size: 3.5rem; color: #b8860b; margin-bottom: 10px;">Year End Party</h1>
-        <p style="margin-bottom: 20px; color: var(--text-green);">Khoa Xét Nghiệm BV Nam Sài Gòn</p>
-        
+    <div class="envelope-container" id="envelopeScreen" onclick="openCard()">
+        <h3 style="font-family: 'Cormorant Garamond'; text-transform: uppercase; letter-spacing: 2px; color: var(--text-green); margin-bottom: 15px; font-weight: 600;">Thân mời quý đồng nghiệp</h3>
+        <h1 class="gold-text" style="font-family: 'Dancing Script'; font-size: 4.5rem; margin-bottom: 20px;">Year End Party</h1>
         <div class="envelope">
             <div class="wax-seal">🦋</div>
         </div>
-        <div class="click-hint">Nhấn vào thiệp để mở...</div>
+        <p class="tap-hint">Chạm nhẹ để mở thiệp...</p>
     </div>
 
-    <div class="cards-wrapper" id="cardsScreen">
+    <div class="main-stage" id="mainStage">
         
-        <div class="wavy-card card-dark" id="card1">
-            <div class="corner tl">🌿</div> 
+        <div class="card card-green">
+            <div class="decor-corner tl">🌿</div>
             
-            <p class="font-playfair" style="text-transform: uppercase; letter-spacing: 1px;">Thân mời quý đồng nghiệp</p>
-            <h1 class="card-title font-dancing">Year End Party</h1>
-            <p class="card-sub">Khoa Xét Nghiệm</p>
+            <p class="sub-title" style="margin-top: 30px;">Trân trọng kính mời</p>
+            <h1 class="main-title gold-text">Year End Party</h1>
+            <p class="sub-title" style="letter-spacing: 2px;">Khoa Xét Nghiệm</p>
             
             <div class="divider"></div>
             
-            <div class="info-row">
-                Lúc: <span class="highlight">17:30</span><br>
-                Ngày: <span class="highlight">20.01.2026</span>
+            <div class="info-block">
+                Lúc: 17:30 <br>
+                <strong class="gold-text" style="font-size: 1.8rem; margin-top: 10px;">20 . 01 . 2026</strong>
             </div>
             
-            <div class="info-row">
-                Tại: <span style="font-weight: 700;">Nhà hàng Diamond Place</span><br>
-                <span style="font-style: italic; opacity: 0.8;">15A Hồ Văn Huê, P.9, Q.Phú Nhuận</span>
+            <div class="info-block">
+                Tại Trung tâm Hội nghị<br>
+                <strong>Diamond Place</strong><br>
+                <span style="font-size: 0.95rem; opacity: 0.9; font-family: 'Montserrat'; margin-top: 5px; display:block;">15A Hồ Văn Huê, P.9, Q.Phú Nhuận</span>
             </div>
 
-            <div class="corner br">🌿</div>
+            <div class="decor-corner br">🌿</div>
         </div>
 
-        <div class="wavy-card card-light" id="card2">
-            <div class="corner tl">✨</div> 
+        <div class="card card-white">
+            <div class="decor-corner tl">✨</div>
             
-            <h2 class="font-playfair agenda-header" style="display: inline-block; padding-bottom: 10px; margin-bottom: 20px;">Timeline</h2>
+            <h2 class="timeline-header">Timeline</h2>
             
-            <ul class="timeline">
-                <li>
-                    <span class="t-time">17:30</span>
-                    <span>Đón khách & Chụp hình</span>
-                </li>
-                <li>
-                    <span class="t-time">18:00</span>
-                    <span>Khai mạc chương trình</span>
-                </li>
-                <li>
-                    <span class="t-time">18:30</span>
-                    <span>Nhập tiệc & Giao lưu</span>
-                </li>
-                <li>
-                    <span class="t-time">19:30</span>
-                    <span>Minigame & Bốc thăm</span>
-                </li>
-                <li>
-                    <span class="t-time">20:30</span>
-                    <span>Bế mạc & Tặng quà</span>
-                </li>
-            </ul>
+            <div style="width: 100%; margin-top: 10px;">
+                <div class="timeline-item">
+                    <div class="time">17:30</div>
+                    <div>Đón khách & Chụp hình</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">18:00</div>
+                    <div>Khai mạc chương trình</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">18:30</div>
+                    <div>Nhập tiệc & Giao lưu</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">19:30</div>
+                    <div>Minigame & Bốc thăm</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">20:30</div>
+                    <div>Bế mạc & Tặng quà</div>
+                </div>
+            </div>
 
-            <p class="font-dancing footer" style="margin-top: 25px; font-size: 1.6rem; color: #3E5C40;">Hân hạnh đón tiếp!</p>
-            
-            <div class="corner br">✨</div>
+            <p style="margin-top: auto; font-family: 'Dancing Script'; font-size: 2.2rem; color: var(--card-dark-end);">Hân hạnh đón tiếp!</p>
+            <div class="decor-corner br">✨</div>
         </div>
 
     </div>
 
     <script>
-        function openCards() {
+        function openCard() {
             const envelope = document.getElementById('envelopeScreen');
-            const cardsWrapper = document.getElementById('cardsScreen');
-            const card1 = document.getElementById('card1');
-            const card2 = document.getElementById('card2');
+            const stage = document.getElementById('mainStage');
 
-            envelope.style.opacity = '0';
-            envelope.style.transform = 'scale(1.5)';
-            
+            envelope.classList.add('hidden');
+
             setTimeout(() => {
-                envelope.classList.add('hidden');
-                cardsWrapper.classList.add('visible');
-                
-                setTimeout(() => {
-                    card1.classList.add('active');
-                    card2.classList.add('active');
-                }, 100);
-            }, 600);
+                stage.classList.add('visible');
+            }, 300);
         }
     </script>
 </body>
