@@ -13,7 +13,7 @@
             --card-dark-end: #38523a;
             --card-light: #fffcf5;
             --text-gold: #ffeaa7;
-            --text-green: #2c3e2e;    
+            --text-green: #2c3e2e;     
             --text-white: #ffffff;
             --shadow-soft: 0 15px 35px rgba(44, 62, 46, 0.15), 0 5px 15px rgba(0,0,0,0.05);
         }
@@ -117,45 +117,45 @@
         .info-block strong { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem; display: block; margin-top: 5px; }
         
         /* --- STYLE TIMELINE ROYAL --- */
-/* --- STYLE TIMELINE BOX --- */
-.timeline-header {
-    font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--text-green);
-    border-bottom: 2px solid rgba(79, 111, 82, 0.2); padding-bottom: 10px; margin-bottom: 25px;
-    display: inline-block;
-}
-.timeline-container {
-    width: 100%; margin-top: 15px;
-    display: flex; flex-direction: column; gap: 12px;
-}
-.timeline-box {
-    display: flex; align-items: center;
-    background-color: rgba(79, 111, 82, 0.06); /* Nền xanh rất nhạt */
-    border: 1px solid rgba(184, 134, 11, 0.25); /* Viền vàng mờ */
-    border-radius: 8px; padding: 10px 15px;
-    transition: transform 0.3s;
-}
-.timeline-box:hover {
-    background-color: rgba(1, 1, 0, 0.15); transform: translateX(5px);
-}
-.time-box {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    
-    /* ĐÃ SỬA: Đổi từ var(--text-gold) sang màu #b8860b (Vàng đồng đậm) */
-    color: #b8860b; 
-    
-    text-shadow: none; /* Bỏ bóng mờ để chữ sắc nét hơn */
-    border-right: 2px solid rgba(79, 111, 82, 0.2);
-    padding-right: 15px;
-    margin-right: 15px;
-    min-width: 75px;
-    text-align: right;
-}
-.content-box {
-    font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
-    font-weight: 600; color: var(--text-green); letter-spacing: 0.5px;
-}
+        /* --- STYLE TIMELINE BOX --- */
+        .timeline-header {
+            font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--text-green);
+            border-bottom: 2px solid rgba(79, 111, 82, 0.2); padding-bottom: 10px; margin-bottom: 25px;
+            display: inline-block;
+        }
+        .timeline-container {
+            width: 100%; margin-top: 15px;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .timeline-box {
+            display: flex; align-items: center;
+            background-color: rgba(79, 111, 82, 0.06); /* Nền xanh rất nhạt */
+            border: 1px solid rgba(184, 134, 11, 0.25); /* Viền vàng mờ */
+            border-radius: 8px; padding: 10px 15px;
+            transition: transform 0.3s;
+        }
+        .timeline-box:hover {
+            background-color: rgba(1, 1, 0, 0.15); transform: translateX(5px);
+        }
+        .time-box {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            
+            /* ĐÃ SỬA: Đổi từ var(--text-gold) sang màu #b8860b (Vàng đồng đậm) */
+            color: #b8860b; 
+            
+            text-shadow: none; /* Bỏ bóng mờ để chữ sắc nét hơn */
+            border-right: 2px solid rgba(79, 111, 82, 0.2);
+            padding-right: 15px;
+            margin-right: 15px;
+            min-width: 75px;
+            text-align: right;
+        }
+        .content-box {
+            font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
+            font-weight: 600; color: var(--text-green); letter-spacing: 0.5px;
+        }
 
         /* --- TRANG TRÍ --- */
         .decor-corner { position: absolute; font-size: 2rem; opacity: 0.8; color: var(--text-gold); }
@@ -167,6 +167,22 @@
             position: fixed; bottom: 10px; right: 10px;
             font-size: 12px; color: #555; background: rgba(255,255,255,0.8);
             padding: 5px 10px; border-radius: 4px; pointer-events: none; z-index: 200;
+        }
+
+        /* BRAND BADGE (ĐÃ SỬA: Thêm căn giữa và width 100%) */
+        .brand-badge {
+            font-family: 'Cormorant Garamond', serif; font-size: 2rem;
+            font-weight: 700; text-transform: uppercase; color: #b8860b;
+            letter-spacing: 4px; margin-bottom: 15px;
+            position: relative; display: flex; align-items: center;
+            justify-content: center; /* Căn giữa */
+            width: 100%;             /* Chiếm hết chiều ngang để căn giữa */
+            text-align: center;
+            gap: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .brand-badge::before, .brand-badge::after {
+            content: "✦"; font-size: 1.5rem; color: #4F6F52; opacity: 0.8;
         }
 
         /* RESPONSIVE */
@@ -182,21 +198,14 @@
         @media (max-width: 400px) {
              .main-stage.visible { transform: scale(0.36); gap: 20px; }
              .envelope-title { font-size: 2.8rem; }
-             .brand-badge { font-size: 1.6rem; letter-spacing: 2px; }
+             /* ĐÃ SỬA: Giảm font size và gap cho màn hình nhỏ */
+             .brand-badge { 
+                 font-size: 1.3rem; 
+                 letter-spacing: 1px; 
+                 gap: 8px;
+             }
         }
         @keyframes fadeInOut { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
-
-        /* BRAND BADGE */
-        .brand-badge {
-            font-family: 'Cormorant Garamond', serif; font-size: 2rem;
-            font-weight: 700; text-transform: uppercase; color: #b8860b;
-            letter-spacing: 4px; margin-bottom: 15px;
-            position: relative; display: flex; align-items: center; gap: 15px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        .brand-badge::before, .brand-badge::after {
-            content: "✦"; font-size: 1.5rem; color: #4F6F52; opacity: 0.8;
-        }
 
         /* CONFETTI */
         .confetti {
@@ -219,6 +228,7 @@
 
     <div class="envelope-container" id="envelopeScreen" onclick="openCard()">
         <div class="brand-badge anim-float">Khoa Xét Nghiệm</div>
+        
         <h3 class="anim-float" style="font-family: 'Cormorant Garamond'; text-transform: uppercase; letter-spacing: 2px; color: var(--text-green); font-weight: 600;">Thân mời quý đồng nghiệp</h3>
         <h1 class="envelope-title anim-float">Year End Party</h1>
         <div class="envelope"><div class="wax-seal">🦋</div></div>
